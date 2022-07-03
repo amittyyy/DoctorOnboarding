@@ -1,0 +1,56 @@
+
+    ion-grid {
+        height: 100vh;
+    }
+    .input-text {
+        font-size: 100%;
+    }
+    .input-text2 {
+        font-size: 120%;
+        
+    }
+    ion-item {
+        --highlight-color-focused: var(--ion-color-primary, #F16521);
+        --highlight-color-valid: var(--ion-color-primary, #F16521);
+    }
+    .row-logo {
+        height: 25vh;
+      }
+
+      .login-form {
+          height: 75vh;
+      }
+    .login-logo {
+        color: #F16521;
+        padding-top: 5%;
+    }
+    
+    img {
+        width: 95%;
+        height: 80%;
+    }
+
+    .delete-profile {
+        font-size: 85%;
+        text-transform: none;
+    }
+
+    .save-prompt {
+        padding-top: 5%;
+    }
+
+    .save-chkbx {
+        margin-right: 4%;
+    }
+
+    .signin-btn {
+        width: 100%;
+        height: 85%;
+        font-size: 130%;
+        padding-top: 3%;
+    }
+    
+
+ion-card {
+    margin-top: 3%;
+}

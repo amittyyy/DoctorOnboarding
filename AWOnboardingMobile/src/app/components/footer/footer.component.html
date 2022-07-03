@@ -1,0 +1,9 @@
+<ion-footer no-border>
+        <ion-toolbar>
+                <ion-buttons>
+                        <ion-button fill="clear" slot="start" (click)="this.location.back()" *ngIf="type !== 'dashboard'">
+                                <ion-icon slot="icon-only" class="footer-icon" src="../../../assets/icon/Nav_back.svg"></ion-icon>
+                        </ion-button>
+                </ion-buttons>
+        </ion-toolbar>
+</ion-footer>

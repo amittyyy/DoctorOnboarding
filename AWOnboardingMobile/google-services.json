@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "382633770120",
+    "firebase_url": "https://aw-ec-193b6.firebaseio.com",
+    "project_id": "aw-ec-193b6",
+    "storage_bucket": "aw-ec-193b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:382633770120:android:e4d52de5aff1d345",
+        "android_client_info": {
+          "package_name": "com.aw.ec"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "382633770120-jkglqvf5gor1eppuke9qj5bdj8pbq687.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbq2-xkpJfgxUmue6Ww2aSf9iytb4nQLo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

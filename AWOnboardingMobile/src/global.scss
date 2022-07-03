@@ -1,0 +1,88 @@
+// http://ionicframework.com/docs/theming/
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/core.css";
+
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
+
+.card-error{
+    background-color:#DB4D4D;
+    color: white;
+}
+.md,.ios,.wp{
+    .toast-success {
+        color: white;
+        > div{
+            background-color: #6294FF
+        }
+    }
+    .toast-error {
+        color: white;
+        > div{
+            background-color: #DB4D4D
+        }
+    }
+   //AT2. color: white;
+}
+
+.not-found-error {
+    font-size: 110%;
+    padding-top: 20vh;
+}
+.menu-item {
+    padding: 5%;
+}
+.menu-title-icon {
+    vertical-align: middle;
+    font-size: 150%;
+}
+
+.pm-color {
+    color: var(--ion-color-primary, #E55B25);
+}
+.sc-color {
+    color: var(--ion-color-secondary, #0066b2);
+}
+.aw-hd-fnt {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    font-size: 130%;
+}
+.tool-title {
+    font-size: 150%;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+
+.subheader {
+    font-weight: bold;
+}
+
+.menu-icons {
+    color: #F16521;
+
+}
+
+.no-selection-message {
+    font-size: 110%;
+    padding-top: 20vh;
+}
+ion-icon {
+    color: var(--ion-color-primary, #F16521);
+}
+ion-item-divider {
+    margin-top: 5%;
+    min-height: 1px!important;
+}
+[aria-checked=true].sc-ion-alert-md .alert-radio-label.sc-ion-alert-md .alert-radio-label.sc-ion-alert-ios {
+    color: black;
+}
+.alert-radio-label.sc-ion-alert-md .alert-radio-label.sc-ion-alert-ios {
+    color: black;
+}

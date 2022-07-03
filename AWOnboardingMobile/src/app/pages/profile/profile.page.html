@@ -1,0 +1,374 @@
+<app-header [title]="'Profile'"></app-header>
+
+<ion-content>
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" pullMin="80"
+            refreshingSpinner="circles">
+        </ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+        <ng-container *ngIf="profile">
+            <ion-row>
+                <ion-col text-center class="page-subheader">
+                    <h3 class="sc-color aw-hd-fnt">View Employee Profile</h3>
+                    <div class="aw-hd-fnt sc-color">{{user?.clientName}}</div>
+                    <ion-item-divider>
+                    </ion-item-divider>
+                </ion-col>
+            </ion-row>
+            <ion-row class="profile-display">
+                <ion-col align-self-center>
+                    <ion-card *ngIf="!toEditProfile">
+                        <ion-card-header text-wrap class="pm-color">
+                            Personal Information
+                        </ion-card-header>
+                        <ion-card-content class="profile-body">
+                            <ion-row>
+                                <ion-col class="profile-heading">
+                                    Name:
+                                </ion-col>
+                                <ion-col style="color: #757575;">
+                                    {{profile?.name}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="profile-heading">
+                                    {{profile?.isContractor ? "Contractor #" : "Employee #"}}
+                                </ion-col>
+                                <ion-col style="color: #757575;">
+                                    {{profile?.employeeNumber}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="profile-heading">
+                                    SSN:
+                                </ion-col>
+                                <ion-col style="color: #757575;">
+                                    {{profile?.ssn}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="profile-heading">
+                                    Address:
+                                </ion-col>
+                                <ion-col style="color: #757575;">
+                                    {{profile?.address1}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="profile?.address2 != ''">
+                                <ion-col class="profile-heading">
+                                    Address 2:
+                                </ion-col>
+                                <ion-col style="color: #757575;">
+                                    {{profile?.address2}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="2" class="profile-heading">
+                                    City:
+                                </ion-col>
+                                <ion-col style="color: #757575;" size="4">
+                                    {{profile?.city}}
+                                </ion-col>
+                                <ion-col size="3" class="profile-heading">
+                                    State:
+                                </ion-col>
+                                <ion-col style="color: #757575;" size="2">
+                                    {{profile?.state}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="profile-heading" size="3">
+                                    Zip:
+                                </ion-col>
+                                <ion-col size="9">
+                                    {{profile?.zip }}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col size="5" class="profile-heading">
+                                    Phone:
+                                </ion-col>
+                                <ion-col style="color: #757575;" size="7">
+                                    {{profile?.cellPhone | phone}}
+                                </ion-col>
+                            </ion-row>
+                            <ion-row>
+                                <ion-col class="profile-heading">
+                                    Email:
+                                </ion-col>
+                                <ion-col style="color: #757575;">
+                                    {{profile?.email}}
+                                </ion-col>
+                            </ion-row>
+                        </ion-card-content>
+                        <ion-row no-padding>
+                            <ion-col>
+                                <ion-button fill="clear" (click)="editProfileInfo()" class="profile-edit-button">
+                                    Edit
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col align-self-center>
+                    <ion-card *ngIf="toEditProfile">
+                        <ion-card-header class="pm-color">
+                            Personal Information
+                        </ion-card-header>
+                        <form #form="ngForm" (ngSubmit)="saveEditProfile(form.value)">
+                            <ion-card-content class="profile-body">
+
+                                <ion-row>
+                                    <ion-col>
+                                        <ion-label color="primary" position="stacked">
+                                            Address 1
+                                        </ion-label>
+                                        <ion-item>
+                                            <ion-input type="text" [(ngModel)]="profile.address1" placeholder="Address 1"
+                                            name="address1"></ion-input>
+                                        </ion-item>
+                                    </ion-col>
+
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        <ion-label color="primary" position="stacked">
+                                            Address 2
+                                        </ion-label>
+                                        <ion-item>
+                                            <ion-input type="text" [(ngModel)]="profile.address2" placeholder="Address 2"
+                                            name="address2"></ion-input>
+                                        </ion-item>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col size="6">
+                                        <ion-label color="primary" position="stacked">
+                                            City
+                                        </ion-label>
+                                        <ion-item>
+                                            <ion-input type="text" [(ngModel)]="profile.city" placeholder="City" name="city"></ion-input>
+                                        </ion-item>
+
+                                    </ion-col>
+                                    <ion-col size="6">
+                                        <ion-label color="primary" position="stacked">
+                                            State
+                                        </ion-label>
+                                        <ion-select [(ngModel)]="profile.state" name="state">
+                                            <ion-select-option *ngFor="let state of states">{{state}}</ion-select-option>
+                                        </ion-select>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col size="12">
+                                        <ion-label color="primary" position="stacked">
+                                            Zip
+                                        </ion-label>
+                                        <ion-item>
+                                            <ion-input type="number" [(ngModel)]="profile.zip" placeholder="Zip Code" name="zip"></ion-input>
+                                        </ion-item>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-item>
+                                    <ion-label color="primary" position="stacked">
+                                        Cell Phone
+                                    </ion-label>
+                                    <ion-input type="tel" [(ngModel)]="profile.cellPhone" placeholder="Cell Phone" name="cellPhone"></ion-input>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label color="primary" position="stacked">
+                                        Email
+                                    </ion-label>
+                                    <ion-input type="email" [(ngModel)]="profile.email" placeholder="Email" name="email"></ion-input>
+                                </ion-item>
+                            </ion-card-content>
+                            <ion-row no-padding>
+                                <ion-col>
+                                    <ion-button fill="clear" type="submit" [disabled]="!form.valid || !form.dirty"
+                                        class="profile-edit-button">
+                                        Save
+                                    </ion-button>
+                                    <ion-button fill="clear" (click)="cancelEditProfile()" class="profile-edit-button">
+                                        Cancel
+                                    </ion-button>
+                                </ion-col>
+                            </ion-row>
+                        </form>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col align-self-center>
+                    <ion-card>
+                        <ion-card-header class="pm-color">
+                            Payroll Information
+                        </ion-card-header>
+                        <ion-card-content class="profile-body">
+                            <ion-item *ngFor="let payRate of profile?.payRates ">
+                                <ion-label>
+                                    {{payRate.title}}
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{payRate.value}}
+                                </div>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label>
+                                    Paid:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.payFrequency}}
+                                </div>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col align-self-center>
+                    <ion-card>
+                        <ion-card-header class="pm-color">
+                            Employment Information
+                        </ion-card-header>
+                        <ion-card-content class="profile-body">
+                            <ion-item>
+                                <ion-label>
+                                    Hire Date:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.hireDate }}
+                                </div>
+                            </ion-item>
+                            <ion-item *ngIf="profile?.vacationAvailable && profile?.vacationAvailable !== '' && profile?.vacationPayType !== ''">
+                                <ion-label>
+                                    {{profile?.vacationPayType}}:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.vacationAvailable}}
+                                </div>
+                            </ion-item>
+                            <ion-item *ngIf="profile?.personalAvailable && profile?.personalPayType != ''">
+                                <ion-label>
+                                    {{profile?.personalPayType}}:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.personalAvailable }}
+                                </div>
+                            </ion-item>
+                            <ion-item *ngIf="profile?.sickAvailable && profile?.sickPayType != ''">
+                                <ion-label>
+                                    {{profile?.sickPayType}}:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.sickAvailable}}
+                                </div>
+                            </ion-item>
+                            <ion-item *ngIf="profile?.w4FileDate && profile?.w4FileDate != ''">
+                                <ion-label>
+                                    W-4 Filed:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.w4FileDate }}
+                                </div>
+                            </ion-item>
+                            <ion-item *ngIf="profile?.i9FileDate != null && profile?.i9FileDate != ''">
+                                <ion-label>
+                                    I-9 Filed:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.i9FileDate }}
+                                </div>
+                            </ion-item>
+                            <ion-item *ngIf="profile?.directDeposit">
+                                <ion-label>
+                                    Direct Deposit:
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile?.directDeposit }}
+                                </div>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col align-self-center>
+                    <ion-card>
+                        <ion-card-header class="pm-color">
+                            Tax Information
+                        </ion-card-header>
+                        <ion-card-content class="profile-body">
+                            <ng-container *ngIf="!profile?.isContractor">
+                                <ion-row class='subheader sc-color'>
+                                    Current:
+                                </ion-row>
+                                <ion-item>
+                                    <ion-label>
+                                        Filling Status:
+                                    </ion-label>
+                                    <div item-content style="color: #757575;">
+                                        {{profile.fedFileStatus}}
+                                    </div>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>
+                                        Exemptions
+                                    </ion-label>
+                                    <div item-content style="color: #757575;">
+                                        {{profile.fedExemptions}}
+                                    </div>
+                                </ion-item>
+                            </ng-container>
+                            <ion-row class='subheader sc-color'>
+                                Form Distribution:
+                            </ion-row>
+                            <ion-item>
+                                <ion-label>
+                                    {{getConsentPrompt(profile)}}
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{profile.electronicDistributionConsent ? 'Yes' : 'No'}}
+                                </div>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="profile?.deductions?.length > 0">
+                <ion-col align-self-center>
+                    <ion-card>
+                        <ion-card-header class="pm-color">
+                            Deduction Information
+                        </ion-card-header>
+                        <ion-card-content class="profile-body">
+                            <ion-item *ngFor="let deduction of profile?.deductions ">
+                                <ion-label>
+                                    {{deduction.title}}
+                                </ion-label>
+                                <div item-content style="color: #757575;">
+                                    {{deduction.value}}
+                                </div>
+                            </ion-item>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ng-container>
+    </ion-grid>
+
+    <ion-row *ngIf="loadFailed">
+        <ion-col text-center>
+            <div class="not-found-error">Profile could not be loaded</div>
+        </ion-col>
+    </ion-row>
+</ion-content>
+<app-footer></app-footer>

@@ -1,0 +1,31 @@
+ion-icon {
+    font-size: 9rem;
+    
+}
+
+ion-row {
+    align-items: center;
+}
+button {
+    background: transparent;
+}
+.dash-btn, .dash-btn-txt, h2 {
+    color: #0066b2;        
+}
+
+.dash-btn-txt {
+    font-size: 120%;
+}
+
+.dash-item {
+    font-size: 140%;
+    vertical-align: middle;
+    color: black;
+
+    ion-label {
+        padding: 5%;
+    }
+    ion-icon {
+        font-size: 140%;
+    }
+}

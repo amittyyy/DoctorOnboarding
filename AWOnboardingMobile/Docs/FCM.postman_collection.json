@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "df4dd1e6-78f3-48d2-b8ee-628c1c908e6f",
+		"name": "FCM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FCM Test",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authentication",
+						"value": "key=AAAAZIrJeGE:APA91bFromaybrEsru3n8-CBJfcgpKNqgu2cx7LJLWcvBqd56v8A8cm1dvbTIYNB5bF3HZst8ShO2tRhLY36pX-SY7BzoUPl7tPrSH96iVcHPq_616k7EHv7na9aGJKvAqv77uazlWxQ"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"to\" : \"eesLOP1EmLI:APA91bG5mEHxdMzRUuEluMW5K8k1PjtSAjLJakX0_MyoFINS6cKzglSj7UEsfF77JCWJvEMtCi4uyyPuUAtDoTSazSfhpQF2sWmNQQaKU23sJzD23FJnMB3wZD0AZdnQfFZfAXILU-Wa\",\r\n \"notification\" : {\r\n     \"body\" : \"First Notification\",\r\n     \"title\": \"Collapsing A\",\r\n     \"click_action\":\"FCM_PLUGIN_ACTIVITY\"\r\n },\r\n \"data\" : {\r\n     \"body\" : \"First Notification\",\r\n     \"title\": \"Collapsing A\",\r\n     \"key_1\" : \"Data for key one\",\r\n     \"key_2\" : \"Hellowww\"\r\n }\r\n}"
+				},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FCM Correct",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "ya29.GlsyBj2KPSqSgx4YXYV5uiZ2oo8Le5NdkBGafOJO4N0vkUMHKsuli4U8zJy7L5xA6-yAKUlbyLQJiKTTffyojSZaj2PPeDXbE29TIajrvx_P-qyiPz-usiDhLuPv",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": false
+					},
+					{
+						"key": "Authentication",
+						"value": "key=AAAAWRa__Ig:APA91bHMw-Twt9Yw9ESF5DJ0OpCYxNQBOpjiSm5JQsbz3Xhwwnjqx9psDyA0e8hRTaXAGF86h4IWXBRragDWI-qyLHRIpM_24ftDL0xqCVd7hhRLTK8FgJu7UgpouTDixIHa8zn_V_30",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\": {\n    \"data\": {\n    \t\"body\" : \"First Notification\",\n\t    \"title\": \"Collapsing A\",\n\t    \"click_action\":\"FCM_PLUGIN_ACTIVITY\"\n    },\n\t\"name\": \"Pay notification\",\n\t \"notification\" : {\n\t     \"body\" : \"First Notification\",\n\t     \"title\": \"Collapsing A\"\n\t },\n\t \"android\":{\n\t\t\"notification\":{\n\t\t\t\"click_action\":\"FCM_PLUGIN_ACTIVITY\"\n\t\t}\t\n\t },\n\t \"apns\": {\n\t \t\"headers\": {\n                \"apns-priority\": \"10\"\n            },\n        \"payload\": {\n             \"aps\": {\n               \"badge\": 1,\n              \"sound\":\"default\"\n             }\n           }\n\t },\n\t \"token\": \"cpVPR_zg0R0:APA91bGTaSFYaYoNzbsBKjCg20dCD9AgaqZHQqmjNm3uGnQuUI5cepLjo2N-QAfAqg52W1oGOlYS9fwbE-pjJtjY1JVedzWoMV7SZHbFaFUQ5XDVZZyktBsatK7BdEY1NTvvbhVY_TPU\"\n\t}\n}\n\n"
+				},
+				"url": {
+					"raw": "https://fcm.googleapis.com/v1/projects/aw-ec-193b6/messages:send",
+					"protocol": "https",
+					"host": [
+						"fcm",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"projects",
+						"aw-ec-193b6",
+						"messages:send"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FCM Test Copy Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "key=AIzaSyCFkyfp4UKSZ3n56Sj5QrDLaJENxwF06jE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"to\": \"eesLOP1EmLI:APA91bG5mEHxdMzRUuEluMW5K8k1PjtSAjLJakX0_MyoFINS6cKzglSj7UEsfF77JCWJvEMtCi4uyyPuUAtDoTSazSfhpQF2sWmNQQaKU23sJzD23FJnMB3wZD0AZdnQfFZfAXILU-Wa\",\n    \"notification\": {\n        \"body\": \"First Notification\",\n        \"title\": \"Collapsing A\",\n        \"click_action\": \"FCM_PLUGIN_ACTIVITY\"\n    },\n    \"data\": {\n        \"body\": \"First Notification\",\n        \"title\": \"Collapsing A\",\n        \"key_1\": \"Data for key one\",\n        \"key_2\": \"Hellowww\"\n    }\n}"
+				},
+				"url": {
+					"raw": "https://iid.googleapis.com/iid/info/ck25RHiZP1k:APA91bHYy3rQ81NsJaJqekmClJYUIoG7lVENwebRFa5TSSJN4SFmrHe0QT-uFDIWoEHSOzDv9gmdAXxc4F4ULEK630F8jFHc9YpP-ZzHmRg1QdbVOB1aK6hJf0S1-pKv_-kzzmR1rjc7?details=true",
+					"protocol": "https",
+					"host": [
+						"iid",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"iid",
+						"info",
+						"ck25RHiZP1k:APA91bHYy3rQ81NsJaJqekmClJYUIoG7lVENwebRFa5TSSJN4SFmrHe0QT-uFDIWoEHSOzDv9gmdAXxc4F4ULEK630F8jFHc9YpP-ZzHmRg1QdbVOB1aK6hJf0S1-pKv_-kzzmR1rjc7"
+					],
+					"query": [
+						{
+							"key": "details",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FCM Authentication",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://www.googleapis.com/auth/firebase.messaging",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"auth",
+						"firebase.messaging"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

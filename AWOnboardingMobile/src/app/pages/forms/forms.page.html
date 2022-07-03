@@ -1,0 +1,42 @@
+<app-header [title]="'View Forms'"></app-header>
+
+<ion-content>
+    <ion-grid>
+            <ion-row>
+                <ion-col text-center class="">
+                        <h3 class="sc-color aw-hd-fnt">View Forms</h3>
+                        <div class="aw-hd-fnt sc-color">{{user?.clientName}}</div>
+                        <ion-item-divider>        
+                            </ion-item-divider>
+                </ion-col>
+            </ion-row>
+        <ion-row>
+                <ion-col>
+                    <ion-label color="primary" class="form-select-label aw-hd-fnt">
+                        Select Form:
+                    </ion-label>
+                </ion-col>
+                <ion-col>
+                    <ion-select name="form" [(ngModel)]="dropdownSelectedForm" [disabled]='forms?.length === 0' placeholder="Select One">
+                        <ion-select-option *ngFor="let form of forms" [value]='form.value'>{{form.text}}</ion-select-option>
+                    </ion-select>
+                </ion-col>
+        </ion-row>
+        <ng-container *ngIf="dropdownSelectedForm" >
+            <ion-row text-center>
+                <ion-col>
+                    <ion-button class="download-btn" color="secondary" (click)="showDocument()">
+                        Download To PDF 
+                      </ion-button>
+                </ion-col>
+              </ion-row>
+          </ng-container>
+        <ion-row *ngIf="!dropdownSelectedForm">
+            <ion-col text-center class="sc">
+                <div class="no-selection-message">{{emptyMessage}}</div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>
+<app-footer></app-footer>

@@ -1,0 +1,128 @@
+<app-header [title]="'Upload'"></app-header>
+<ion-content>
+    <ion-grid *ngIf='user'>
+        <ion-row>
+            <ion-col text-center class="page-subheader">
+                <h3 class="sc-color aw-hd-fnt">Upload Forms</h3>
+                <div class="aw-hd-fnt sc-color">{{user?.clientName}}</div>
+                <ion-item-divider>        
+                  </ion-item-divider>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-row>
+          <ion-col text-center>
+              <ion-button size="large"  padding color="secondary" class="upload-btn"
+              (click)="presentActionSheet()">
+              From File
+            </ion-button>
+          </ion-col>
+        </ion-row> -->
+        <ion-row text-center class="up-subheader sc-color" *ngIf="!usingCamera">
+            <ion-col>
+                Choose how to upload your form
+            </ion-col>
+        </ion-row>
+        <ng-container *ngIf="!usingCamera">
+                <ion-row>
+                        <ion-col (click)="useCamera()">
+                            <ion-row class="camera-icon">
+                               <ion-col text-center>
+                                  <ion-icon name="md-camera"></ion-icon>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row >
+                             <ion-col text-center>
+                                <span class="sc-color">Camera</span>
+                             </ion-col>
+                            </ion-row>
+                        </ion-col>
+                        <ion-col  (click)="presentActionSheet()">
+                            <ion-row class="camera-icon">
+                                <ion-col text-center>
+                                   <ion-icon name="md-document"></ion-icon>
+                                 </ion-col>
+                             </ion-row>
+                             <ion-row >
+                              <ion-col text-center>
+                                 <span class="sc-color">File</span>
+                              </ion-col>
+                             </ion-row>
+                        </ion-col>
+                      </ion-row>
+        </ng-container>
+          <ng-container *ngIf="usingCamera">
+            <ion-row>
+                <ng-container  *ngFor="let page of pages; let i = index"  >
+                    <ion-col size="6">
+                        <ion-card class="page-preview camera-icon2" text-center (click)="getPhoto(i)" [@test]="'in'">
+                            <img class="page-preview" *ngIf="page.value" [src]="sanitizer.bypassSecurityTrustUrl(page.value)">
+                            <ng-container *ngIf="!page.value">
+                                <div class="card-title"><ion-icon name="md-camera"></ion-icon></div>
+                                <div class="card-subtitle page">{{page.text}}</div>
+                            </ng-container>
+                        </ion-card>
+                    </ion-col>
+            </ng-container>
+            </ion-row>
+            
+            <ion-row text-center>
+                <ion-col>
+                    <ion-button size="small"  padding color="secondary" [disabled]="(this.totalSelected < 1)" (click)="presentActionSheet()">
+                        Upload
+                      </ion-button>
+                    <ion-button size="small"  padding color="secondary" (click)="cancelCameraUpload()">
+                    Cancel
+                  </ion-button>
+                </ion-col>
+            </ion-row>
+              <!-- <ion-row >
+                  <ion-col size="6">
+                      <ion-card class="page-preview camera-icon2" text-center (click)="getPhotoOne()">
+                          <img class="page-preview" *ngIf="pageOne" [src]="sanitizer.bypassSecurityTrustUrl(pageOne)">
+                          <ng-container *ngIf="!pageOne">
+                              <div class="card-title"><ion-icon name="md-camera"></ion-icon></div>
+                              <div class="card-subtitle page">Page one</div>
+                          </ng-container>
+                      </ion-card>
+                  </ion-col>
+                  <ion-col size="6">
+                      <ion-card class="page-preview camera-icon2" text-center (click)="getPhotoTwo()">
+                          <img class="page-preview" *ngIf="pageTwo" [src]="sanitizer.bypassSecurityTrustUrl(pageTwo)">
+                          <div class="card-title"><ion-icon name="md-camera"></ion-icon></div>
+                          <div class="card-subtitle page">Page Two</div>
+                        
+                      </ion-card>
+                  </ion-col>
+      
+                </ion-row>
+                <ion-row  >
+                    <ion-col size="6">
+                        <ion-card class="page-preview camera-icon2" text-center (click)="getPhotoThree()">
+                            <img class="page-preview" *ngIf="pageThree" [src]="sanitizer.bypassSecurityTrustUrl(pageThree)">
+                            <div class="card-title"><ion-icon name="md-camera"></ion-icon></div>
+                            <div class="card-subtitle page">Page Three</div>
+                          
+                        </ion-card>
+                    </ion-col>
+                    <ion-col size="6">
+                        <ion-card class="page-preview camera-icon2" text-center (click)="getPhotoFour()">
+                            <img class="page-preview" *ngIf="pageFour" [src]="sanitizer.bypassSecurityTrustUrl(pageFour)">
+                            <div class="card-title"><ion-icon name="md-camera"></ion-icon></div>
+                            <div class="card-subtitle page">Page Four</div>
+                          
+                        </ion-card>
+                    </ion-col>
+        
+                  </ion-row> -->
+            
+          </ng-container>
+          
+        <ion-row class="view-up-txt">
+          <ion-col text-center >
+              <div class="sc-color" routerLink="/forms" >View uploaded forms</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+</ion-content>
+<app-footer></app-footer>

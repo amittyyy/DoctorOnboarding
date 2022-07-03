@@ -1,0 +1,488 @@
+<app-header [title]="'Pay Stubs'"></app-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col text-center class="page-subheader">
+                <h3 class="sc-color aw-hd-fnt">View Pay Stubs</h3>
+                <div class="aw-hd-fnt sc-color">{{user?.clientName}}</div>
+                <ion-item-divider class="title-divider">
+                </ion-item-divider>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="7">
+                <ion-label color="primary" class="paystub-select-label aw-hd-fnt">
+                    <ion-icon class="calendar-icon" src="../../../assets/icon/Calenadar_icon_og.svg" (click)="select.open()"></ion-icon>
+                    <span style="vertical-align: middle;">Select Paystub: </span>
+                </ion-label>
+            </ion-col>
+            <ion-col size="5">
+                <ion-select name="paystub" style="vertical-align: middle;" [(ngModel)]="dropdownSelectedPayStub"
+                    [disabled]='payStubs?.length === 0' (ionChange)="loadSpecificPayStub()" placeholder="{{selectedPaystubText}}">
+                    <ion-select-option *ngFor="let paystub of payStubs" [value]='paystub.value'>{{paystub.text }}</ion-select-option>
+                </ion-select>
+            </ion-col>
+
+        </ion-row>
+
+        <ion-row *ngIf="!selectedPayStub">
+            <ion-col text-center>
+                <div class="no-selection-message">{{emptyMessage}}</div>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-row *ngIf="selectedPayStub">
+            <ion-label>
+                Hours #
+              </ion-label>
+              <div item-content style="color: #757575;">
+                  {{selectedPayStub?.totalHours}}
+              </div>
+        </ion-row> -->
+        <ng-container *ngIf="selectedPayStub">
+            <ion-row>
+                <ion-col>
+                    <ion-card shape="round">
+                        <ion-card-header class="pm-color">
+                            Earnings
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ng-container *ngFor='let payType of selectedPayStub.payTypes'>
+                                <ng-container *ngIf="payType.hours > 0">
+                                    <ion-row class='paystub-subheader' class="sc-color">
+                                        {{payType.payrollPayTypeDescription | titlecase}}
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            Hours
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            {{payType.hours}}
+                                        </ion-col>
+                                        <ion-item-divider></ion-item-divider>
+                                    </ion-row>
+
+                                    <ion-row>
+                                        <ion-col>
+                                            Hourly Rate
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            {{payType?.rate | currency}}
+                                        </ion-col>
+                                        <ion-item-divider></ion-item-divider>
+                                    </ion-row>
+
+                                    <ion-row>
+                                        <ion-col>
+                                            Current
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            {{payType.wages | currency}}
+                                        </ion-col>
+                                        <ion-item-divider></ion-item-divider>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            YTD
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            {{payType.wagesYTD | currency}}
+                                        </ion-col>
+                                        <ion-item-divider></ion-item-divider>
+                                    </ion-row>
+                                </ng-container>
+                            </ng-container>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header text-wrap class="pm-color">
+                            Taxes/Deductions
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col size="3">
+                                    </ion-col>
+                                    <ion-col size="4" class='paystub-table-header sc-color' text-center>
+                                        Current
+                                    </ion-col>
+                                    <ion-col size="5" class='paystub-table-header sc-color' text-center>
+                                        YTD
+                                    </ion-col>
+
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col size="3">
+                                        Federal
+                                    </ion-col>
+                                    <ion-col size="4" text-center>
+                                        {{selectedPayStub?.federalTax | currency}}
+                                    </ion-col>
+                                    <ion-col size="5" text-center>
+                                        {{selectedPayStub?.federalTaxYTD | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col size="3">
+                                        Social Sec.
+                                    </ion-col>
+                                    <ion-col size="4" text-center>
+                                        {{selectedPayStub?.socSecTax | currency}}
+                                    </ion-col>
+                                    <ion-col size="5" text-center>
+                                        {{selectedPayStub?.socSecYTD | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col size="3">
+                                        Medicare
+                                    </ion-col>
+                                    <ion-col size="4" text-center>
+                                        {{selectedPayStub?.medicareTax | currency}}
+                                    </ion-col>
+                                    <ion-col size="5" text-center>
+                                        {{selectedPayStub?.medicareYTD | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                                <ng-container *ngIf='selectedPayStub.states'>
+                                    <ng-container *ngFor='let state of selectedPayStub.states '>
+                                        <ion-row>
+                                            <ion-col size="3">
+                                                {{state.stateCode}} State
+                                            </ion-col>
+                                            <ion-col size="4" text-center>
+                                                {{state.stateTax | currency}}
+                                            </ion-col>
+                                            <ion-col size="5" text-center>
+                                                {{state.stateTaxYTD | currency}}
+                                            </ion-col>
+                                            <ion-item-divider></ion-item-divider>
+                                        </ion-row>
+                                        <ng-container *ngFor='let local of state.locals'>
+                                            <ion-row>
+                                                <ion-col size="3">
+                                                    {{local.displayName}}
+                                                </ion-col>
+                                                <ion-col size="4" text-center>
+                                                    {{local.localTax | currency}}
+                                                </ion-col>
+                                                <ion-col size="5" text-center>
+                                                    {{local.localTaxYTD | currency}}
+                                                </ion-col>
+                                                <ion-item-divider></ion-item-divider>
+                                            </ion-row>
+
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf='selectedPayStub.deductions'>
+                                    <ng-container *ngFor='let deduction of selectedPayStub.deductions '>
+                                        <ion-row>
+                                            <ion-col size="3">
+                                                {{deduction.deductionName}}
+                                            </ion-col>
+                                            <ion-col size="4" text-center>
+                                                {{deduction.deduction | currency}}
+                                            </ion-col>
+                                            <ion-col size="5" text-center>
+                                                {{deduction.ytd | currency}}
+                                            </ion-col>
+                                            <ion-item-divider></ion-item-divider>
+                                        </ion-row>
+                                    </ng-container>
+                                </ng-container>
+
+                            </ion-grid>
+
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-card>
+                        <ion-card-header class="pm-color">
+                            Totals
+                        </ion-card-header>
+                        <ion-card-content>
+                            <ion-grid *ngIf='selectedPayStub.directDepositAmt > 0'>
+                                <ion-row>
+                                    <ion-col>
+                                        Direct Deposit
+                                    </ion-col>
+                                    <ion-col>
+                                        {{selectedPayStub?.directDepositAmt | currency}}
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-row class='paystub-subheader sc-color'>
+                                Current:
+                            </ion-row>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                        Gross Wages
+                                    </ion-col>
+                                    <ion-col text-center>
+                                        {{selectedPayStub?.grossPay | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        Taxable Wages
+                                    </ion-col>
+                                    <ion-col text-center>
+                                        {{selectedPayStub?.futaTaxableWages | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                                <ion-row>
+                                    <ion-col>
+                                        Net pay
+                                    </ion-col>
+                                    <ion-col text-center>
+                                        {{selectedPayStub?.netPay | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                            </ion-grid>
+                            <ion-row class='paystub-subheader sc-color'>
+                                Year-To-End:
+                            </ion-row>
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                        Gross Wages
+                                    </ion-col>
+                                    <ion-col text-center>
+                                        {{selectedPayStub?.grossYTD | currency}}
+                                    </ion-col>
+                                    <ion-item-divider></ion-item-divider>
+                                </ion-row>
+                            </ion-grid>
+
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ng-container>
+        <!-- <ion-row *ngIf="selectedPayStub">
+            <ion-card>
+                <ion-card-header class="pm-color">
+                    Earnings
+                </ion-card-header>
+                <ion-card-content>
+                    <ng-container *ngFor='let payType of selectedPayStub.payTypes'>
+                        <ng-container *ngIf="payType.hours > 0">
+                                <ion-row class='paystub-subheader' class="sc-color">
+                                        {{getPaytypeById(payType.payTypeDefID)}}
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            Hours
+                                        </ion-col>
+                                        <ion-col text-center>
+                                             {{payType.hours | number : '1.2'}}
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            Hourly Rate
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            $ {{payType?.rate | number : '1.2-2'}}
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            Current
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            $ {{payType.wages}}
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row>
+                                        <ion-col>
+                                            YTD
+                                        </ion-col>
+                                        <ion-col text-center>
+                                            $ {{payType.wagesYTD}}
+                                        </ion-col>
+                                    </ion-row>
+                        </ng-container>
+                    </ng-container>
+                </ion-card-content>
+            </ion-card>
+            <ion-card>
+                <ion-card-header text-wrap class="pm-color">
+                    Taxes/Deductions
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col size="4">
+                            </ion-col>
+                            <ion-col size="4" class='paystub-table-header sc-color'  text-center>
+                                Current ($)
+                            </ion-col>
+                            <ion-col size="4" class='paystub-table-header sc-color' text-center>
+                                YTD ($)
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="4">
+                                Federal
+                            </ion-col>
+                            <ion-col size="4" text-center>
+                                {{selectedPayStub?.federalTax}}
+                            </ion-col>
+                            <ion-col size="4" text-center>
+                                {{selectedPayStub?.federalTaxYTD}}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="4">
+                                Social Sec.
+                            </ion-col>
+                            <ion-col size="4" text-center>
+                                {{selectedPayStub?.socSecTax}}
+                            </ion-col>
+                            <ion-col size="4" text-center>
+                                {{selectedPayStub?.socSecYTD}}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="4">
+                                Medicare
+                            </ion-col>
+                            <ion-col size="4" text-center>
+                                {{selectedPayStub?.medicareTax | number : '1.2-2'}}
+                            </ion-col>
+                            <ion-col size="4" text-center>
+                                {{selectedPayStub?.medicareYTD | number : '1.2-2'}}
+                            </ion-col>
+                        </ion-row>
+                        <ng-container *ngIf='selectedPayStub.states'>
+                            <ng-container *ngFor='let state of selectedPayStub.states '>
+                                <ion-row>
+                                    <ion-col size="4">
+                                        {{state.stateCode}} State
+                                    </ion-col>
+                                    <ion-col size="4" text-center>
+                                        {{state.stateTax}}
+                                    </ion-col>
+                                    <ion-col size="4" text-center>
+                                        {{state.stateTaxYTD}}
+                                    </ion-col>
+                                </ion-row>
+                                <ng-container *ngFor='let local of state.locals'>
+                                    <ion-row>
+                                        <ion-col size="4">
+                                            {{local.displayName}}
+                                        </ion-col>
+                                        <ion-col size="4" text-center>
+                                            {{local.localTax | number : '1.2-2'}}
+                                        </ion-col>
+                                        <ion-col size="4" text-center>
+                                            {{local.localTaxYTD | number : '1.2-2'}}
+                                        </ion-col>
+                                    </ion-row>
+
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ion-grid>
+
+                </ion-card-content>
+            </ion-card>
+            <ion-card>
+                <ion-card-header class="pm-color">
+                    Totals
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-grid *ngIf='selectedPayStub.directDepositAmt > 0'>
+                        <ion-row>
+                            <ion-col>
+                                Direct Deposit
+                            </ion-col>
+                            <ion-col>
+                                $ {{selectedPayStub?.directDepositAmt | number : '1.2-2'}}
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ion-row class='paystub-subheader sc-color'>
+                        Current:
+                    </ion-row>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col>
+                                Gross Wages
+                            </ion-col>
+                            <ion-col text-center>
+                                $ {{selectedPayStub?.grossPay | number : '1.2-2'}}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                Taxable Wages
+                            </ion-col>
+                            <ion-col text-center>
+                                $ {{selectedPayStub?.futaTaxableWages | number : '1.2-2'}}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                Net pay
+                            </ion-col>
+                            <ion-col text-center>
+                                $ {{selectedPayStub?.netPay | number : '1.2-2'}}
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ion-row class='paystub-subheader sc-color'>
+                        Year-To-End:
+                    </ion-row>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col>
+                                Gross Wages
+                            </ion-col>
+                            <ion-col text-center>
+                                $ {{selectedPayStub?.grossYTD | number : '1.2-2'}}
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+
+                </ion-card-content>
+            </ion-card>
+        </ion-row> -->
+        <!-- <ion-row *ngIf="selectedPayStub">
+            <ion-col text-center>
+                <ion-button round (click)='downloadPDF()'>Download as PDF</ion-button>
+            </ion-col>
+        </ion-row> -->
+
+    </ion-grid>
+
+</ion-content>
+<div *ngIf="selectedPayStub">
+    <ion-fab vertical="center" horizontal="end" slot="fixed">
+        <ion-fab-button color="secondary" mini>
+            <ion-icon name="md-download" class="action-icon"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+            <ion-fab-button (click)='downloadPDF()' class='fab-btn'>
+                <ion-icon src="../../../assets/icon/PDF_icon.svg"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,85 @@
+<ion-content >
+  <ion-grid>
+    <ion-row class="row-logo">
+      <ion-col>
+        <img class="login-logo" src="../../../assets/icon/EP_logo_horizontal.svg">
+      </ion-col>
+
+    </ion-row>
+    <ion-card *ngIf="isLoginInvalid">
+      <ion-card-content class="card-error">
+        Incorrect username and/or password. Please try again.
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="isLoginInvalidOther">
+      <ion-card-content class="card-error">
+        Unable to Login. Try again later.
+      </ion-card-content>
+    </ion-card>
+    <form #form="ngForm" (ngSubmit)="login()" class="login-form">
+      <ion-row>
+        <ion-col align-self-center>
+          <ion-item>
+            <ion-label class="input-text" color="primary" position="stacked">Firm Code</ion-label>
+            <ion-input class="input-text2" type="text" [(ngModel)]="firmCode" placeholder="Firm Code" name="firmCode"
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col align-self-center>
+          <ion-item>
+            <ion-label class="input-text" color="primary" position="stacked">Username</ion-label>
+            <ion-input class="input-text2" type="text" [(ngModel)]="userName" placeholder="Username" name="username"
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col align-self-center>
+          <ion-item>
+            <ion-label class="input-text" color="primary" position="stacked">Password</ion-label>
+            <ion-input class="input-text2" type="password" [(ngModel)]="password" placeholder="Password" name="password"
+              required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="save-prompt">
+            <ion-toggle class="save-chkbx" slot="start" [(ngModel)]="saveInformation" name="saveLogin"></ion-toggle>
+            <ion-label class="sc-color" color="secondary">Remember Me</ion-label>
+            <!-- <ion-icon *ngIf="enabledId?.value" ios="ios-finger-print" md="md-finger-print" (click)="loginWithId()"></ion-icon> -->
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row align-self-center>
+        <ion-col class="delete-profile sc-color" (click)="openResetPassword()" style="text-align: center;">
+          Forgot Password?
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button size="medium" shape="block" type="submit" class="signin-btn" padding [disabled]="!form.valid">
+            Sign in
+          </ion-button>
+
+        </ion-col>
+      </ion-row>
+      <ion-row text-center>
+          <!-- <ion-col *ngIf="enabledId?.value" size="7" class="delete-profile sc-color"  (click)="resetProfile()">Delete sign in profile</ion-col> -->
+        <ion-col  class="delete-profile sc-color" (click)="openPrivacyPolicy()" style="text-align: center;">
+          Privacy Policy
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row  align-self-center>
+        <ion-col class="delete-profile sc-color" (click)="openPrivacyPolicy()" style="text-align: center;">
+            Privacy Policy 
+        </ion-col>
+      </ion-row> -->
+    </form>
+
+  </ion-grid>
+
+
+</ion-content>
